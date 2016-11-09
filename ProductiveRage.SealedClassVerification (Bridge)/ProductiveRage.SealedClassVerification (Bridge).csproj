@@ -37,10 +37,12 @@
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\ProductiveRage.SealedClassVerification %28.NET%29\DesignedForInheritanceAttribute.cs">
+      <Link>DesignedForInheritanceAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DesignedForInheritanceAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\ProductiveRage.SealedClassVerification %28Bridge%29\DesignedForInheritanceAttribute.cs">
+    <Compile Include="..\ProductiveRage.SealedClassVerification %28.NET%29\DesignedForInheritanceAttribute.cs">
       <Link>DesignedForInheritanceAttribute.cs</Link>
     </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">
