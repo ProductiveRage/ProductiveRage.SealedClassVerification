@@ -29,8 +29,8 @@ The following class will be highlighted with a warning -
 	// This is not allowed - is the class really not abstract, sealed or static by design or is it just because
 	// the author didn't give any thought to it? If it's the former then use the [DesignedForInheritance] attribute
 	// to tell the analyser (and future code maintainers) that it was a conscious decision. If it's the latter then
-	// then the warning should encourage the expenditure of a little thought on the matter! (Probably it should be
-	// sealed until the sorts of facilities that should be available to derived classes are better understood).
+	// the warning should encourage the expenditure of a little thought on the matter! (Probably it should be sealed
+	// until the sorts of facilities that should be available to derived classes are better understood).
 	
 	public class Example { }
 	
