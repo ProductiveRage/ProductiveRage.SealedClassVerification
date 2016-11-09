@@ -1,0 +1,5 @@
+﻿Testing an Analyser for a Bridge.NET library is not as straight forward as testing a regular C# library because no single project can load the Bridge library AND the standard .NET framework libraries. Since the Analyser requires various "standard C#" libraries (such as Microsoft.CodeAnalysis) and since the ProductiveRage.SealedClassVerification library requres Bridge, that would seemingly make it impossible to reference the SealedClassVerification code to test!
+
+The workaround is to create a separate project that links to the C# files that the Bridge ProductiveRage.SealedClassVerification library uses and build them as a standard C# class library - then THIS may be included as a reference in the code samples that are used as targets for the analyser in the unit tests.
+
+This project is the "regular C# build" of ProductiveRage.SealedClassVerification, the "workaround project".
