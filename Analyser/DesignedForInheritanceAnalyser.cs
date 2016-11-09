@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -15,8 +16,16 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 		private const string Category = "Design";
 		public static DiagnosticDescriptor ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule = new DiagnosticDescriptor(
 			DiagnosticId,
-			title: GetLocalizableString(nameof(Resources.DesignedForInheritanceDescription)),
-			messageFormat: GetLocalizableString(nameof(Resources.DesignedForInheritanceDescription)),
+			title: GetLocalizableString(nameof(Resources.MustUseDesignedForInheritanceDescription)),
+			messageFormat: GetLocalizableString(nameof(Resources.MustUseDesignedForInheritanceDescription)),
+			category: Category,
+			defaultSeverity: DiagnosticSeverity.Warning,
+			isEnabledByDefault: true
+		);
+		public static DiagnosticDescriptor AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule = new DiagnosticDescriptor(
+			DiagnosticId,
+			title: GetLocalizableString(nameof(Resources.MustNotUseDesignedForInheritanceDescription)),
+			messageFormat: GetLocalizableString(nameof(Resources.MustNotUseDesignedForInheritanceDescription)),
 			category: Category,
 			defaultSeverity: DiagnosticSeverity.Warning,
 			isEnabledByDefault: true
@@ -27,7 +36,8 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 			get
 			{
 				return ImmutableArray.Create(
-					ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule
+					ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule,
+					AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule
 				);
 			}
 		}
@@ -52,8 +62,35 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 					(modifierKind == SyntaxKind.SealedKeyword) ||
 					(modifierKind == SyntaxKind.StaticKeyword);
 			});
+
 			if (isLimitedInScopeByClassModifiers)
-				return;
+			{
+				if (HasDesignedForInheritanceAttribute(classDeclaration, context))
+				{
+					context.ReportDiagnostic(Diagnostic.Create(
+						AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule,
+						classDeclaration.GetLocation(),
+						classDeclaration.Identifier.Text
+					));
+				}
+			}
+			else
+			{
+				if (!HasDesignedForInheritanceAttribute(classDeclaration, context))
+				{
+					context.ReportDiagnostic(Diagnostic.Create(
+						ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule,
+						classDeclaration.GetLocation(),
+						classDeclaration.Identifier.Text
+					));
+				}
+			}
+		}
+
+		private static bool HasDesignedForInheritanceAttribute(ClassDeclarationSyntax classDeclaration, SyntaxNodeAnalysisContext context)
+		{
+			if (classDeclaration == null)
+				throw new ArgumentNullException(nameof(classDeclaration));
 
 			// If the class has none of those modifiers then look for a [DesignedForInheritance] attribute. If it doesn't have any attributes or doesn't have any whose
 			// name is "DesignedForInheritance" or "DesignedForInheritanceAttribute" then we can move on without having done much work. If we find at least one attribute
@@ -75,42 +112,34 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 					return null;
 				})
 				.Where(attribute => attribute != null);
+			if (!attributesThatMayBeDesignedForInheritance.Any())
+				return false;
 
 			// If we've identified any attributes that are named "DesignedForInheritance" (or "DesignedForInheritanceAttribute") then we need to look up where the
 			// attribute classes are declared and ensure that they are the genuine "ProductiveRage.SealedClassVerification.DesignedForInheritance" article. Again, if
 			// we could reference the DesignedForInheritance then we could compare the full namespace of the referenced class with the namespaces of the attributes
 			// here (but we can't because the DesignedForInheritance class is declared in a Bridge project).
 			const string ATTRIBUTE_NAMESPACE = "ProductiveRage.SealedClassVerification";
-			if (attributesThatMayBeDesignedForInheritance.Any())
-			{
-				var attributesThatAreConfirmedToBeDesignedForInheritance = attributesThatMayBeDesignedForInheritance
-					.Select(attribute =>
+			var attributesThatAreConfirmedToBeDesignedForInheritance = attributesThatMayBeDesignedForInheritance
+				.Select(attribute =>
+				{
+					var attributeType = context.SemanticModel.GetTypeInfo(attribute);
+					if (attributeType.Type is IErrorTypeSymbol)
+						return null;
+
+					var containingNamespace = attributeType.Type.ContainingNamespace;
+					var namespaceSegments = new List<string>();
+					while ((containingNamespace != null) && !string.IsNullOrWhiteSpace(containingNamespace.Name))
 					{
-						var attributeType = context.SemanticModel.GetTypeInfo(attribute);
-						if (attributeType.Type is IErrorTypeSymbol)
-							return null;
-
-						var containingNamespace = attributeType.Type.ContainingNamespace;
-						var namespaceSegments = new List<string>();
-						while ((containingNamespace != null) && !string.IsNullOrWhiteSpace(containingNamespace.Name))
-						{
-							namespaceSegments.Insert(0, containingNamespace.Name);
-							containingNamespace = containingNamespace.ContainingNamespace;
-						}
-						if (string.Join(".", namespaceSegments) != ATTRIBUTE_NAMESPACE)
-							return null;
-						return attribute;
-					})
-					.Where(attribute => attribute != null);
-				if (attributesThatAreConfirmedToBeDesignedForInheritance.Any())
-					return;
-			}
-
-			context.ReportDiagnostic(Diagnostic.Create(
-				ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule,
-				classDeclaration.GetLocation(),
-				classDeclaration.Identifier.Text
-			));
+						namespaceSegments.Insert(0, containingNamespace.Name);
+						containingNamespace = containingNamespace.ContainingNamespace;
+					}
+					if (string.Join(".", namespaceSegments) != ATTRIBUTE_NAMESPACE)
+						return null;
+					return attribute;
+				})
+				.Where(attribute => attribute != null);
+			return attributesThatAreConfirmedToBeDesignedForInheritance.Any();
 		}
 
 		private static LocalizableString GetLocalizableString(string nameOfLocalizableResource)

@@ -122,6 +122,87 @@ namespace ProductiveRage.SealedClassVerification.Analyser.Test
 			VerifyCSharpDiagnostic(testContent);
 		}
 
+		[TestMethod]
+		public void DoNotUseAttributeWithAbstractClass()
+		{
+			var testContent = @"
+				using ProductiveRage.SealedClassVerification;
+
+				namespace TestCase
+				{
+					[DesignedForInheritance]
+					public abstract class Example { }
+				}";
+
+
+			var expected = new DiagnosticResult
+			{
+				Id = DesignedForInheritanceAnalyser.DiagnosticId,
+				Message = DesignedForInheritanceAnalyser.AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule.MessageFormat.ToString(),
+				Severity = DiagnosticSeverity.Warning,
+				Locations = new[]
+				{
+					new DiagnosticResultLocation("Test0.cs", 6, 6)
+				}
+			};
+
+			VerifyCSharpDiagnostic(testContent, expected);
+		}
+
+		[TestMethod]
+		public void DoNotUseAttributeWithSealedClass()
+		{
+			var testContent = @"
+				using ProductiveRage.SealedClassVerification;
+
+				namespace TestCase
+				{
+					[DesignedForInheritance]
+					public sealed class Example { }
+				}";
+
+
+			var expected = new DiagnosticResult
+			{
+				Id = DesignedForInheritanceAnalyser.DiagnosticId,
+				Message = DesignedForInheritanceAnalyser.AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule.MessageFormat.ToString(),
+				Severity = DiagnosticSeverity.Warning,
+				Locations = new[]
+				{
+					new DiagnosticResultLocation("Test0.cs", 6, 6)
+				}
+			};
+
+			VerifyCSharpDiagnostic(testContent, expected);
+		}
+
+		[TestMethod]
+		public void DoNotUseAttributeWithStaticClass()
+		{
+			var testContent = @"
+				using ProductiveRage.SealedClassVerification;
+
+				namespace TestCase
+				{
+					[DesignedForInheritance]
+					public static class Example { }
+				}";
+
+
+			var expected = new DiagnosticResult
+			{
+				Id = DesignedForInheritanceAnalyser.DiagnosticId,
+				Message = DesignedForInheritanceAnalyser.AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule.MessageFormat.ToString(),
+				Severity = DiagnosticSeverity.Warning,
+				Locations = new[]
+				{
+					new DiagnosticResultLocation("Test0.cs", 6, 6)
+				}
+			};
+
+			VerifyCSharpDiagnostic(testContent, expected);
+		}
+
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
 			return new DesignedForInheritanceAnalyser();

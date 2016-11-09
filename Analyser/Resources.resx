@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DesignedForInheritanceDescription" xml:space="preserve">
+  <data name="MustNotUseDesignedForInheritanceDescription" xml:space="preserve">
+    <value>Any class that is abstract, sealed or static may not be decorated with a [DesignedForInheritance] attribute since it is not applicable (sealed and static classes may not be inherited from and abstract classes may be presumed to have been explicitly designed for inheritance)</value>
+  </data>
+  <data name="MustUseDesignedForInheritanceDescription" xml:space="preserve">
     <value>Any class that is not abstract, sealed or static should be decorated with a [DesignedForInheritance] attribute to indicate that this was a conscious decision and it has not been left in this state unintentionally</value>
   </data>
 </root>
