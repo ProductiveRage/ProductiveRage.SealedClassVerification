@@ -6,7 +6,7 @@ In an answer to the question "[What are five things you hate about your favorite
 
 > "Classes should be sealed by default"
 
-.. to which [Rasmus Faber](http://stackoverflow.com/users/5542/rasmus-faber replied that 
+.. to which [Rasmus Faber](http://stackoverflow.com/users/5542/rasmus-faber) replied that 
 
 >  I think a better solution.. would be a DesignedForInheritanceAttribute and a warning from the compiler when a class derives from it anyway
 
@@ -14,4 +14,38 @@ Since it's likely impossible to determine through static analysis whether a clas
 
 This library declares a [DesignedForInheritance] attribute and includes an analyser to verify that classes are abstract, sealed, static *or* they have this attribute on them.
 
-Currently (as of November 2016), this is only available for Bridge.NET projects but I intend to create a version of the library that will work with projects that use the .NET framework as well.
+## NuGet package availability
+
+This project has been built into two packages -
+
+* for [Bridge.NET](http://bridge.net/): ([ProductiveRage.SealedClassVerification.Bridge](https://www.nuget.org/packages/ProductiveRage.SealedClassVerification.Bridge))
+
+* for .NET 4.5: ([ProductiveRage.SealedClassVerification.Net](https://www.nuget.org/packages/ProductiveRage.SealedClassVerification.Net))
+
+## Examples
+
+The following class will be highlighted with a warning -
+
+	// This is not allowed - is the class really not abstract, sealed or static by design or is it just because
+	// the author didn't give any thought to it? If it's the former then use the [DesignedForInheritance] attribute
+	// to tell the analyser (and future code maintainers) that it was a conscious decision. If it's the latter then
+	// then the warning should encourage the expenditure of a little thought on the matter! (Probably it should be
+	// sealed until the sorts of facilities that should be available to derived classes are better understood).
+	public class Example { }
+	
+> Any class that is abstract, sealed or static may not be decorated with a [DesignedForInheritance] attribute since it is not applicable (sealed and static classes may not be inherited from and abstract classes may be presumed to have been explicitly designed for inheritance)
+	
+All of the following are considered fine -
+
+	[DesignedForInheritance]
+	public class Example { }
+
+	public abstract class Example { }
+
+	public sealed class Example { }
+
+	public static class Example { }
+
+Note that you may not use the **DesignedForInheritance** on classes that are abstract, sealed or static as a statement has already been made about their extensibility (or lack of). As such, a **DesignedForInheritance** attribute on them is most likely a mistake and the class will be highlighted with a warning -
+
+> Any class that is not abstract, sealed or static should be decorated with a [DesignedForInheritance] attribute to indicate that this was a conscious decision and it has not been left in this state unintentionally
