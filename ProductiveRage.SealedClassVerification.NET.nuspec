@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ProductiveRage.SealedClassVerification.Net</id>
-    <title>ProductiveRage.SealedClassVerification (.NET Core)</title>
+    <title>ProductiveRage.SealedClassVerification (.NET)</title>
     <version>1.2.0</version>
     <authors>ProductiveRage</authors>
     <owners>ProductiveRage</owners>
