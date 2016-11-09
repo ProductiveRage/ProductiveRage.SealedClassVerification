@@ -34,7 +34,7 @@ The following class will be highlighted with a warning -
 	
 	public class Example { }
 	
-> Any class that is abstract, sealed or static may not be decorated with a [DesignedForInheritance] attribute since it is not applicable (sealed and static classes may not be inherited from and abstract classes may be presumed to have been explicitly designed for inheritance)
+> Any class that is not abstract, sealed or static should be decorated with a [DesignedForInheritance] attribute to indicate that this was a conscious decision and it has not been left in this state unintentionally
 	
 All of the following are considered fine -
 
@@ -49,4 +49,4 @@ All of the following are considered fine -
 
 Note that you may not use the **DesignedForInheritance** on classes that are abstract, sealed or static as a statement has already been made about their extensibility (or lack of). As such, a **DesignedForInheritance** attribute on them is most likely a mistake and the class will be highlighted with a warning -
 
-> Any class that is not abstract, sealed or static should be decorated with a [DesignedForInheritance] attribute to indicate that this was a conscious decision and it has not been left in this state unintentionally
+> Any class that is abstract, sealed or static may not be decorated with a [DesignedForInheritance] attribute since it is not applicable (sealed and static classes may not be inherited from and abstract classes may be presumed to have been explicitly designed for inheritance)
