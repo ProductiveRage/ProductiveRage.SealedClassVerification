@@ -9,8 +9,8 @@ del *.pdb 2> nul
 del *.xml 2> nul
 del *.ps1 2> nul
 
-copy ..\ProductiveRage.SealedClassVerification\bin\Release\ProductiveRage.SealedClassVerification.dll > nul
-copy ..\ProductiveRage.SealedClassVerification\bin\Release\ProductiveRage.SealedClassVerification.xml > nul
+copy ..\"ProductiveRage.SealedClassVerification (Bridge)"\bin\Release\ProductiveRage.SealedClassVerification.dll > nul
+copy ..\"ProductiveRage.SealedClassVerification (Bridge)"\bin\Release\ProductiveRage.SealedClassVerification.xml > nul
 
 copy ..\Analyser\bin\Release\*.dll > nul
 copy ..\Analyser\bin\Release\tools\* > nul
