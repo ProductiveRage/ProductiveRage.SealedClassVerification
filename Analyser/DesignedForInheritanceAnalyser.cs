@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 
 namespace ProductiveRage.SealedClassVerification.Analyser
 {
@@ -69,7 +70,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 				{
 					context.ReportDiagnostic(Diagnostic.Create(
 						AttributeMustNotBeUsedOnAbstractSealedOrStaticClassRule,
-						classDeclaration.GetLocation(),
+						GetClassHeaderHighlightLocation(classDeclaration),
 						classDeclaration.Identifier.Text
 					));
 				}
@@ -80,7 +81,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 				{
 					context.ReportDiagnostic(Diagnostic.Create(
 						ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule,
-						classDeclaration.GetLocation(),
+						GetClassHeaderHighlightLocation(classDeclaration),
 						classDeclaration.Identifier.Text
 					));
 				}
@@ -140,6 +141,23 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 				})
 				.Where(attribute => attribute != null);
 			return attributesThatAreConfirmedToBeDesignedForInheritance.Any();
+		}
+
+		private static Location GetClassHeaderHighlightLocation(ClassDeclarationSyntax classDeclaration)
+		{
+			if (classDeclaration == null)
+				throw new ArgumentNullException(nameof(classDeclaration));
+
+			var startLocation = classDeclaration.Modifiers.Any() ? classDeclaration.Modifiers.First().GetLocation() : classDeclaration.Keyword.GetLocation();
+			var endLocation = classDeclaration.Identifier.GetLocation();
+
+			return Location.Create(
+				classDeclaration.SyntaxTree,
+				new TextSpan(
+					start: startLocation.SourceSpan.Start,
+					length: endLocation.SourceSpan.End - startLocation.SourceSpan.Start
+				)
+			);
 		}
 
 		private static LocalizableString GetLocalizableString(string nameOfLocalizableResource)

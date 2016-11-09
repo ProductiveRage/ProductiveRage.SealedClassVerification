@@ -142,7 +142,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser.Test
 				Severity = DiagnosticSeverity.Warning,
 				Locations = new[]
 				{
-					new DiagnosticResultLocation("Test0.cs", 6, 6)
+					new DiagnosticResultLocation("Test0.cs", 7, 6)
 				}
 			};
 
@@ -169,7 +169,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser.Test
 				Severity = DiagnosticSeverity.Warning,
 				Locations = new[]
 				{
-					new DiagnosticResultLocation("Test0.cs", 6, 6)
+					new DiagnosticResultLocation("Test0.cs", 7, 6)
 				}
 			};
 
@@ -196,7 +196,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser.Test
 				Severity = DiagnosticSeverity.Warning,
 				Locations = new[]
 				{
-					new DiagnosticResultLocation("Test0.cs", 6, 6)
+					new DiagnosticResultLocation("Test0.cs", 7, 6)
 				}
 			};
 
