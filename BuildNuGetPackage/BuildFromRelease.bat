@@ -18,7 +18,7 @@ copy ..\"ProductiveRage.SealedClassVerification (Bridge)"\bin\Release\Productive
 copy ..\ProductiveRage.SealedClassVerification.Bridge.nuspec > nul
 ..\packages\NuGet.CommandLine.2.8.5\tools\nuget pack -NoPackageAnalysis ProductiveRage.SealedClassVerification.Bridge.nuspec
 
-copy ..\"ProductiveRage.SealedClassVerification (.NET)"\bin\Release\net452\ProductiveRage.SealedClassVerification.Net.dll > nul
+copy ..\"ProductiveRage.SealedClassVerification (.NET)"\bin\Release\net45\ProductiveRage.SealedClassVerification.Net.dll > nul
 
 copy ..\ProductiveRage.SealedClassVerification.NET.nuspec > nul
 ..\packages\NuGet.CommandLine.2.8.5\tools\nuget pack -NoPackageAnalysis ProductiveRage.SealedClassVerification.NET.nuspec
