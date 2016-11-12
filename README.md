@@ -20,7 +20,7 @@ This project has been built into two packages -
 
 * for [Bridge.NET](http://bridge.net/): ([ProductiveRage.SealedClassVerification.Bridge](https://www.nuget.org/packages/ProductiveRage.SealedClassVerification.Bridge))
 
-* for .NET 4.5: ([ProductiveRage.SealedClassVerification.Net](https://www.nuget.org/packages/ProductiveRage.SealedClassVerification.Net))
+* for .NET 4.5 and .NET Core: ([ProductiveRage.SealedClassVerification.Net](https://www.nuget.org/packages/ProductiveRage.SealedClassVerification.Net))
 
 ## Examples
 
