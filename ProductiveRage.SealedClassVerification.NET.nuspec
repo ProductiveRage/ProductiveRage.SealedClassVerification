@@ -3,7 +3,7 @@
   <metadata>
     <id>ProductiveRage.SealedClassVerification.Net</id>
     <title>ProductiveRage.SealedClassVerification (.NET)</title>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <authors>ProductiveRage</authors>
     <owners>ProductiveRage</owners>
     <licenseUrl>https://github.com/ProductiveRage/ProductiveRage.SealedClassVerification/blob/master/LICENSE</licenseUrl>
@@ -13,11 +13,16 @@
     <description>An analyser that ensures that no classes are not marked as one of abstract, sealed or static by accident (a new [DesignedForInheritance] must be added to each such class)</description>
     <copyright>Copyright 2016 ProductiveRage</copyright>
     <tags>C# analysis</tags>
-    <dependencies />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5" />
+      <group targetFramework=".NETStandard1.6" />
+    </dependencies>
   </metadata>
   <files>
     <file src="ProductiveRage.SealedClassVerification.Net.dll" target="lib\net45" />
     <file src="ProductiveRage.SealedClassVerification.xml" target="lib\net45" />
+    <file src="netstandard1.6\ProductiveRage.SealedClassVerification.Net.dll" target="lib\netstandard1.6" />
+    <file src="ProductiveRage.SealedClassVerification.xml" target="lib\netstandard1.6" />
     <file src="ProductiveRage.SealedClassVerification.Analyser.dll" target="analyzers\dotnet\cs" />
     <file src="*.ps1" target="tools\" />
   </files>
