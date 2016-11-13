@@ -6,7 +6,7 @@ using TestHelper;
 namespace ProductiveRage.SealedClassVerification.Analyser.Test
 {
 	[TestClass]
-	public class DesignedForInheritanceTests : DiagnosticVerifier
+	public class DesignedForInheritanceAnalyserTests : DiagnosticVerifier
 	{
 		[TestMethod]
 		public void NoGoodIfNoModifierAndNoAttribute()

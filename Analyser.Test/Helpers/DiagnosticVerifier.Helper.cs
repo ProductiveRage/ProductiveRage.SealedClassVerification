@@ -23,7 +23,7 @@ namespace TestHelper
 		private static readonly MetadataReference CorlibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
 		private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
 		private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
-		private static readonly MetadataReference CSharpBridgeReactReference = MetadataReference.CreateFromFile(typeof(DesignedForInheritanceAttribute).Assembly.Location);
+		private static readonly MetadataReference ProductiveRageSealedClassVerificationReference = MetadataReference.CreateFromFile(typeof(DesignedForInheritanceAttribute).Assembly.Location);
 
 		internal static string DefaultFilePathPrefix = "Test";
 		internal static string CSharpDefaultFileExt = "cs";
@@ -157,7 +157,7 @@ namespace TestHelper
 				.AddMetadataReference(projectId, CorlibReference)
 				.AddMetadataReference(projectId, SystemCoreReference)
 				.AddMetadataReference(projectId, CSharpSymbolsReference)
-				.AddMetadataReference(projectId, CSharpBridgeReactReference);
+				.AddMetadataReference(projectId, ProductiveRageSealedClassVerificationReference);
 
 			int count = 0;
 			foreach (var source in sources)

@@ -13,6 +13,9 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 	[DiagnosticAnalyzer(LanguageNames.CSharp)]
 	public sealed class DesignedForInheritanceAnalyser : DiagnosticAnalyzer
 	{
+		public const string AttributeNamespace = "ProductiveRage.SealedClassVerification";
+		public const string AttributeName = "DesignedForInheritance";
+
 		public const string DiagnosticId = "DesignedForInheritance";
 		private const string Category = "Design";
 		public static DiagnosticDescriptor ClassesMustBeAbstractSealedStaticOrMarkedAsDesignedForInheritanceRule = new DiagnosticDescriptor(
@@ -102,13 +105,12 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 			//       analyser and access the type name and the containing namespace more easily (but the ProductiveRage.SealedClassVerification project references the
 			//       Bridge library and this analyser project uses the .NET framework and it's not possible for a single project to access both). Instead, we need to
 			//       work with fixed strings for the class name and the namespace.
-			const string ATTRIBUTE_NAME = "DesignedForInheritance";
 			var attributesThatMayBeDesignedForInheritance = classDeclaration.AttributeLists
 				.SelectMany(attributeList => attributeList.Attributes)
 				.Select(attribute =>
 				{
 					var name = attribute.Name.ToString().Split('.').Last();
-					if ((name == ATTRIBUTE_NAME) || (name == ATTRIBUTE_NAME + "Attribute"))
+					if ((name == AttributeName) || (name == AttributeName + "Attribute"))
 						return attribute;
 					return null;
 				})
@@ -120,7 +122,6 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 			// attribute classes are declared and ensure that they are the genuine "ProductiveRage.SealedClassVerification.DesignedForInheritance" article. Again, if
 			// we could reference the DesignedForInheritance then we could compare the full namespace of the referenced class with the namespaces of the attributes
 			// here (but we can't because the DesignedForInheritance class is declared in a Bridge project).
-			const string ATTRIBUTE_NAMESPACE = "ProductiveRage.SealedClassVerification";
 			var attributesThatAreConfirmedToBeDesignedForInheritance = attributesThatMayBeDesignedForInheritance
 				.Select(attribute =>
 				{
@@ -135,7 +136,7 @@ namespace ProductiveRage.SealedClassVerification.Analyser
 						namespaceSegments.Insert(0, containingNamespace.Name);
 						containingNamespace = containingNamespace.ContainingNamespace;
 					}
-					if (string.Join(".", namespaceSegments) != ATTRIBUTE_NAMESPACE)
+					if (string.Join(".", namespaceSegments) != AttributeNamespace)
 						return null;
 					return attribute;
 				})

@@ -100,7 +100,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DesignedForInheritanceTests.cs" />
+    <Compile Include="DesignedForInheritanceCodeFixTests.cs" />
+    <Compile Include="DesignedForInheritanceAnalyserTests.cs" />
+    <Compile Include="Helpers\CodeFixVerifier.Helper.cs" />
+    <Compile Include="Verifiers\CodeFixVerifier.cs" />
     <Compile Include="Verifiers\DiagnosticVerifier.cs" />
     <Compile Include="Helpers\DiagnosticResult.cs" />
     <Compile Include="Helpers\DiagnosticVerifier.Helper.cs" />

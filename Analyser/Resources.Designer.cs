@@ -62,6 +62,15 @@ namespace ProductiveRage.SealedClassVerification.Analyser {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add [DesignedForInheritance] attribute.
+        /// </summary>
+        internal static string AddAttribute {
+            get {
+                return ResourceManager.GetString("AddAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Any class that is abstract, sealed or static may not be decorated with a [DesignedForInheritance] attribute since it is not applicable (sealed and static classes may not be inherited from and abstract classes may be presumed to have been explicitly designed for inheritance).
         /// </summary>
         internal static string MustNotUseDesignedForInheritanceDescription {
@@ -76,6 +85,15 @@ namespace ProductiveRage.SealedClassVerification.Analyser {
         internal static string MustUseDesignedForInheritanceDescription {
             get {
                 return ResourceManager.GetString("MustUseDesignedForInheritanceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seal class.
+        /// </summary>
+        internal static string SealClass {
+            get {
+                return ResourceManager.GetString("SealClass", resourceCulture);
             }
         }
     }
